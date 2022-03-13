@@ -9,7 +9,7 @@ class Baseball_Data_Loader:
         self.conn = sqlite3.connect(self.database)
 
     def get_players(self):
-        query = "SELECT player_id, name_first ||' ' || name_last AS name, debut, weight, height, bats as bat_hand, throws as throw_hand FROM player"
+        query = "SELECT player_id, name_first ||' ' || name_last AS name, debut, weight, height, bats AS bat_hand, throws AS throw_hand FROM player"
 
         players_df = pd.read_sql_query(query, self.conn)
         players_df.set_index('player_id', inplace=True)
@@ -20,20 +20,20 @@ class Baseball_Data_Loader:
 
     def get_player_positions(self):
         query = 'SELECT player_id, ' \
-        'SUM(g_c) as catcher, ' \
-        'SUM(g_1b) as firstbaseman, ' \
-        'SUM(g_2b) as secondbaseman, ' \
-        'SUM(g_3b) as thirdbaseman, ' \
-        'SUM(g_ss) as shortstop, ' \
-        'SUM(g_of) as outfielder ' \
-        'from appearances group by player_id'
+        'SUM(g_c) AS catcher, ' \
+        'SUM(g_1b) AS firstbaseman, ' \
+        'SUM(g_2b) AS secondbaseman, ' \
+        'SUM(g_3b) AS thirdbaseman, ' \
+        'SUM(g_ss) AS shortstop, ' \
+        'SUM(g_of) AS outfielder ' \
+        'FROM appearances GROUP BY player_id'
 
         plyr_pos_df = pd.read_sql_query(query, self.conn)
         display(plyr_pos_df.head())
         return plyr_pos_df
 
     def get_player_performance(self):
-        query = "SELECT player_id, year, stint, g as games_yr, ab as at_bats, h as hits, hr, rbi FROM batting"
+        query = "SELECT player_id, year, stint, g AS games_yr, ab AS at_bats, h AS hits, hr, rbi FROM batting"
         performance_df = pd.read_sql_query(query, self.conn)
 
         display(performance_df.head())
